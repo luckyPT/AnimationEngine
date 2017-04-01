@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+	<link rel="stylesheet" type="text/css" href="css/man.css">
+	<link rel="stylesheet" type="text/css" href="css/animate.css">
+	<script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
+</head>
+<body>
+	<div id="man">
+		
+		<div id="waist">
+			<img src="imges/head.png" style="-webkit-transform: rotateY(180deg); width: 60px; margin-bottom: -10px; margin-left: -10px">
+			<img src="imges/body.png" style="position: absolute; width: 78px; margin-left: -10px;z-index: 2">
+			<div id="rightArm" class="arm BigLegAnimate" style="z-index: 2">
+				<img src="imges/arm.png" style=" -webkit-transform: rotateY(180deg); position: absolute; width: 150%; margin-top: 20px;margin-left: -10px;">
+			</div>
+			<div id="leftArm" class="arm" style="z-index: -1">
+				<img src="imges/arm.png" style=" -webkit-transform: rotateY(180deg); position: absolute; width: 150%;  margin-top: 20px; margin-left: -10px;">
+			</div>
+			<div id="leftBigLeg">
+				<img src="imges/bigLeg.png" style="position: absolute; width: 110%;">
+				<div id="leftSmallLeg">
+					<img src="imges/smallLeg.png" style="-webkit-transform: rotateY(180deg); margin-left: -40px;">
+				</div>
+			</div>
+
+			<div id="rightBigLeg">
+				<img src="imges/bigLeg.png" style="position: absolute; width: 110%;">
+				<div id="rightSmallLeg">
+					<img src="imges/smallLeg.png" style=" -webkit-transform: rotateY(180deg); margin-left: -40px;">
+				</div>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		$('#leftBigLeg').addClass('BigLegAnimate');
+		$('#leftSmallLeg').addClass('SmallLegAnimate');
+		function rightLeg(){
+			$('#rightBigLeg').addClass('BigLegAnimate');
+			$('#rightSmallLeg').addClass('SmallLegAnimate');
+			$('#leftArm').addClass('BigLegAnimate');
+		}
+		setTimeout("rightLeg()",2000);
+		function move() {
+			$('#waist').css('marginLeft','0px')
+			$('#waist').animate({marginLeft:"720px"},20000,move);
+		}
+		move();
+		//$('#waist').animate({marginLeft:"720px"},20000,move);
+	</script>
+</body>
+</html>

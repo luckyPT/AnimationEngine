@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
+		<script type="text/javascript" src="verlet-1.0.0.js" ></script>
+		<script>
+			function GetRandomNum(Min,Max){//获取随机数   
+				var Range = Max - Min;   
+				var Rand = Math.random();
+				return(Min + Math.round(Rand * Range));   
+			} 
+		</script>
+	</head>
+	<body>
+		<canvas id="scratch" style=" border:2px solid black; width: 700px; height: 500px;"></canvas>
+		
+		<script type="text/javascript">
+			var upDown = 0;//0 xia 1 shang
+			window.onload = function() {
+				var canvas = document.getElementById("scratch");
+
+				// canvas dimensions
+				var width = parseInt(canvas.style.width);
+				var height = parseInt(canvas.style.height);
+
+				// retina
+				var dpr = window.devicePixelRatio || 1;
+				canvas.width = width*dpr;
+				canvas.height = height*dpr;
+				var ctx = canvas.getContext("2d");
+				ctx.scale(dpr, dpr);
+
+				// simulation
+				var sim = new VerletJS(width, height, canvas);
+				sim.gravity = new Vec2(0,0);
+				var point = sim.point(new Vec2(100,100));
+				var linePoints=[];
+				for(var i=0;i<200;i++){
+					linePoints.push(new Vec2(100+i*10,260));
+				}
+				var line=sim.lineSegments(linePoints,2);
+				//line.pin(0);
+				//line.pin(99);
+				// init
+				//line.particles[0].pos = new Vec2(500,300);
+				// animation loop
+				var upDown=0; //0 up  1 down
+				var loop = function() {
+					sim.frame(16);
+					sim.draw();
+					line.particles[0].pos = line.particles[0].pos.rotate(line.particles[GetRandomNum(100,199)].pos,Math.PI/360);
+					line.particles[199].pos = line.particles[199].pos.rotate(line.particles[GetRandomNum(0,100)].pos,-1*Math.PI/360);
+					
+					/*if(upDown ==0 ){
+						line.particles[0].pos = new Vec2(100, line.particles[0].pos.add(new Vec2(0,10)).y);
+						line.particles[99].pos = new Vec2(1100, line.particles[99].pos.add(new Vec2(0,10)).y);
+						if( line.particles[0].pos.y > 490){
+							upDown =1;
+						}
+					}
+					
+					if( upDown == 1 ){
+						line.particles[0].pos = new Vec2(100, line.particles[0].pos.add(new Vec2(0,-10)).y);
+						line.particles[99].pos = new Vec2(1100, line.particles[99].pos.add(new Vec2(0,-10)).y);
+						if( line.particles[0].pos.y < 10){
+							upDown =0;
+						}
+					}*/
+					//console.log(line.particles[0].pos);
+					requestAnimFrame(loop);
+				};
+				loop();
+			}
+			
+		</script>
+	</body>
+</html>

@@ -1,0 +1,58 @@
+html,body {
+  margin: 0;
+  padding:0;
+  height: 100%;
+  "overflow-x":"hidden"	
+}
+
+/*背景渐变*/
+.sky{
+	width:700px;
+	height:40%;
+	/**	可以设置由上向下 或 左向右 或 指定一定的角度，还可以指定变化的曲线
+	 *	指定角度后就不可以指定由哪儿到哪儿
+	 **/
+	/*background:-webkit-linear-gradient(top, #0066FF 0%,#ffffee 60%,#ffffff 100%);*/
+	 background: -webkit-linear-gradient(90deg, #ffffff, #0099FF);
+	
+}
+
+.cloud1{
+	height:400px;
+	width:400px;
+	position:absolute;
+	overflow:hidden;
+	z-index:1;
+}
+
+
+
+.cloud2{
+	height:400px;
+	width:400px;
+	position:absolute;
+	z-index:2;
+}
+.cloud3{
+	height:100%;
+	width:100%;
+	position:absolute;
+	background:url("imges/cloud_three.png");
+}
+.sun{
+	width:15%;
+	position:absolute;
+	margin-top:120px;
+	left:-15%;
+}
+
+@keyframes sunRotation{
+	from{-webkit-transform:rotateZ(0deg);}
+	to{-webkit-transform:rotateZ(360deg);}
+}
+@-webkit-keyframes sunRotation{
+	from{-webkit-transform:rotateZ(0deg);}
+	to{-webkit-transform:rotateZ(360deg);}
+}
+
+

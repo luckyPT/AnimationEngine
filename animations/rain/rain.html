@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+		<script src="js/draw.js"></script>
+		<script src="js/entity.js"></script>
+		<script>
+			function GetRandomNum(Min,Max){//获取随机数   
+				var Range = Max - Min;   
+				var Rand = Math.random();
+				return(Min + Math.round(Rand * Range));   
+			} 
+		</script>
+	</head>
+	<body style="margin: 0; padding:0;height: 100%">
+		<div>
+			<img id="canvasBackground" src="imges/rainBackGround.jpg" style="position: absolute;z-index:-1;" />
+			<canvas  id="canvas_all">
+			</canvas>
+		</div>
+		<script type="text/javascript">
+			//全局变量
+			var canvasBackgroundImge = document.getElementById('canvasBackground');
+			var canvas = document.getElementById('canvas_all');
+			var canvasContext = canvas.getContext('2d');
+			var canvasWidth = window.innerWidth;
+			var canvasHeight = window.innerHeight;
+			init();
+			function init(){
+				canvas.width = canvasWidth;
+				canvas.height = canvasHeight;
+				canvas.setAttribute('style','background:rgba(0,0,0,0);border:1px solid red');//设置边框
+				canvasBackgroundImge.width = canvasWidth;
+				canvasBackgroundImge.height = canvasHeight;
+			}
+			
+			var rainImage = new Element("imges/rain.png",0,0,10,30).img; 
+			var warterImage = new Element("imges/warter.png",200,canvasHeight - 10,100,200);
+			var warterEntity = new RectEntity(200,canvasHeight - 10,100,200,warterImage);
+			var warterContainer = new Element("imges/container.png",160,canvasHeight - canvasHeight / 2+20,180,canvasHeight / 2);
+			var rainNow = true;	//是否下雨
+			var rainsNum = 0;	//接收的雨滴数量
+			var rains=[]
+			rains.push(new rain(10,10,9,30));
+			rains[0].draw();
+
+			function rainsAniation(){
+				canvasContext.clearRect(0,0, canvasWidth, canvasHeight);
+				warterImage.draw();
+				warterContainer.draw();
+				drawText('#FFFFFF',300,canvasHeight - 100 ,30,'arial',true,rainsNum);
+				if(warterEntity.height < canvasHeight / 2){
+					warterImage.height += 0.03;
+					warterImage.y -=0.03;
+					warterEntity.height +=0.03;
+					warterEntity.y -=0.03;
+				}else{
+					rainNow=false;
+				}
+				for (var i = 0; i < rains.length; i++) {
+					if(!warterEntity.hit(rains[i])){
+						rains[i].draw();
+					}else{
+						rains.splice(i,1);
+						rainsNum++;
+					}
+					rains[i].y +=3;
+					rains[i].x -=0.1;
+					if(rains[i].y > canvasHeight-10){
+						rains.splice(i,1);
+					}
+				}
+			}
+
+			function pushRain(){
+				if(rainNow){
+					rains.push(new rain(GetRandomNum(10,canvasWidth+100),-10,6,20));
+				}
+			}
+			setInterval(rainsAniation,1000/1000);//每个1/3秒调用一次productSnow函数
+			setInterval(pushRain,1000/50);//每个1/3秒调用一次productSnow函数
+		</script>
+	</body>
+</html>

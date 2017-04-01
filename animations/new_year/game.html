@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+		<script src="js/draw.js"></script>
+		<script src="js/entity.js"></script>
+		<script>
+			function GetRandomNum(Min,Max){//获取随机数   
+				var Range = Max - Min;   
+				var Rand = Math.random();
+				return(Min + Math.round(Rand * Range));   
+			} 
+		</script>
+	</head>
+	<audio id="bgsound" src="sound/backgroundSound.mp3" loop="loop"></audio>
+	<body style="margin: 0; padding:0;height: 100%;width:100%">
+		<div id="control" style="width:100%;height:auto;position:absolute;float:top;display:inline">
+			<input id="musicBtn" type="image" src="imges/music_no.png" onclick="musicControl()" style="float:right" />
+		</div>
+		<div id="guideContent" style="position:absolute;margin:auto;display:none">
+			点击拖动，收集太阳
+		</div>
+		<div>
+			<img id="canvasBackground" src="imges/bgImage.jpg" style="position: absolute;z-index:-1;" />
+			<canvas  id="canvas_all">
+			</canvas>
+		</div>
+		<script type="text/javascript">
+			var myAuto = document.getElementById('bgsound'); //背景音乐
+			//全局变量
+			var canvasBackgroundImge = document.getElementById('canvasBackground');
+			var canvas = document.getElementById('canvas_all');
+			var canvasContext = canvas.getContext('2d');
+			var canvasWidth = window.innerWidth;
+			var canvasHeight = window.innerHeight;
+			init();
+			function init(){
+				canvas.width = canvasWidth;
+				canvas.height = canvasHeight;
+				canvas.setAttribute('style','background:rgba(0,0,0,0);border:0px solid red');//设置边框
+				canvasBackgroundImge.width = canvasWidth;
+				canvasBackgroundImge.height = canvasHeight;
+			}
+			
+			//------------游戏代码----------------
+			var produceSunRate = 2;	//产生太阳的速度 每秒/个
+			var getSunsNum = 0;			//取得的太阳的数量
+			var sunImage = new Element("imges/sun.png",0,0,100,100).img; //太阳图片
+			var gravity = 0.5;		//重力
+			//定义接太阳的容器
+			var container_x = canvasWidth/2-90; //容器x坐标
+			var container_y = canvasHeight -160;	//容器y坐标
+			
+			var container = new Element("imges/container.png",container_x,container_y,180,100);
+			var containerEntity = new RectEntity(container_x+40,container_y,100,40,container);
+			var suns=[];			//太阳数组
+			suns.push(new Sun(sunImage,10,10,30,30));
+			suns[0].draw();
+
+			function rainsAniation(){
+				if(getSunsNum==88){
+					canvasContext.clearRect(0,0, canvasWidth, canvasHeight);
+					endGame();
+					return;
+					
+				}
+				gravity +=0.0001
+				canvasContext.clearRect(0,0, canvasWidth, canvasHeight);
+				container.draw();
+				//containerEntity.draw();
+				for (var i = 0; i < suns.length; i++) {
+					if(!containerEntity.hit(suns[i])){
+						suns[i].draw();
+					}else{
+						suns.splice(i,1);
+						getSunsNum++;
+					}
+					suns[i].y +=gravity;
+					suns[i].x -=0;
+					if(suns[i].y > canvasHeight-10){
+						suns.splice(i,1);
+					}
+				}
+				drawText('yellow',container.x+80 ,container.y + 50,30,'arial',true,getSunsNum,20);
+				//console.log(getSunsNum);
+			}
+
+			function pushSun(){
+				suns.push(new Sun(sunImage,GetRandomNum(10,canvasWidth+100),-10,30,30));
+			}
+			
+			//手机触屏事件
+			var body=document.getElementsByTagName('body')[0];
+			body.addEventListener('touchmove', function(event) {
+				event.preventDefault(); //阻止触摸时浏览器的缩放、滚动条滚动等
+				var touch = event.targetTouches[0];
+				container.x = touch.pageX - 90;
+				containerEntity.x = touch.pageX - 50;
+			},false);
+			
+			body.addEventListener('touchend', function(event) {
+				//event.preventDefault(); //阻止触摸时浏览器的缩放、滚动条滚动等
+				 
+			},false);
+			
+			body.addEventListener('touchstart', function(event) {
+			
+			},false);
+			
+			function musicControl(){
+				var state = document.getElementById('musicBtn');
+				
+				if(state.getAttribute('src').indexOf('music_yes')>-1){
+					myAuto.pause();
+					state.setAttribute('src','imges/music_no.png');
+				}else{
+					myAuto.play();
+					state.setAttribute('src','imges/music_yes.png')
+				}
+			}
+			var animations=[];
+			function startGame(){
+				//音乐自动播放
+				//myAuto.play();
+				animations.push(setInterval(rainsAniation,1000/3000));//每个1/3秒调用一次productSnow函数
+				animations.push(setInterval(pushSun,1000/produceSunRate));//每个1/3秒调用一次productSnow函数
+			}
+			function endGame(){
+				for(var i=0;i<animations.length;i++){
+					clearInterval(animations[i]);
+				}
+			}
+			startGame();
+			setTimeout(guideOperation,2000);
+			function guideOperation(){
+				//出现提示
+				//alert('点击拖动，收集太阳');
+			}
+		</script>
+	</body>
+</html>

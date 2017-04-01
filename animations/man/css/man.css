@@ -1,0 +1,98 @@
+#man{
+ 	margin-left:-10%;
+	margin-top: 16%;
+}
+
+.arm{
+	width: 30px;
+	height: 300px;
+	margin-left: 10px;
+	border-radius: 15px;
+	position: absolute;
+	/*background-color: #000000;*/
+}
+#waist{
+	width: 50px;
+	height: 160px;
+	border-radius: 20px;
+	z-index: 2;
+	/*background-color: #00F0FF;*/
+}
+
+#leftBigLeg{
+	width: 50px;
+	height: 150px;
+	margin-top: 140px;
+	position:absolute;
+	border-radius: 20px;
+	/*background-color: #989898;*/
+	z-index: -1;
+}
+
+#leftSmallLeg{
+	width: 30px;
+	height: 300px;
+	margin-top: 110px;
+	margin-left: 10px;
+	border-radius: 20px;
+	position:absolute;
+	/*background-color: #989898;*/
+}
+
+#rightBigLeg{
+	width: 50px;
+	height: 150px;
+	margin-top: 140px;
+	border-radius: 20px;
+	position:absolute;
+	/*background-color: #989898;*/
+}
+
+#rightSmallLeg{
+	width: 30px;
+	height: 300px;
+	border-radius: 20px;
+	margin-top: 110px;
+	margin-left: 10px;
+	position:absolute;
+	/*background-color: #989898;*/
+}
+
+
+.BigLegAnimate{
+	-webkit-animation: BigLegAnimate 2s infinite alternate;
+}
+
+@-webkit-keyframes BigLegAnimate{
+	from{
+		transform-origin:50% 0%;
+		-webkit-transform-origin:50% 0%;
+		transform: rotate(-30deg);
+		-webkit-transform: rotate(-30deg);
+	}
+	to{
+		transform-origin:50% 0%;
+		-webkit-transform-origin:50% 0%;
+		transform: rotate(10deg);
+		-webkit-transform: rotate(10deg);
+	}
+} 
+
+.SmallLegAnimate{
+	-webkit-animation: SmallLegAnimate 2s infinite alternate;
+  	animation: SmallLegAnimate 2s infinite alternate;
+}
+@-webkit-keyframes SmallLegAnimate{
+	from{
+		transform-origin:50% 0%;
+		-webkit-transform-origin:50% 0%;
+		transform: rotate(0deg);
+		-webkit-transform: rotate(0deg);
+	}
+	to{
+		transform-origin:50% 0%;
+		-webkit-transform-origin:50% 0%;
+		transform: rotate(20deg);
+		-webkit-transform: rotate(20deg);
+	}
+} 

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html >
+	<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
+		<link rel="stylesheet" type="text/css" href="cssAnimation.css"/>
+	</head>
+	<body>		
+			<div class="sky" style="width: 100%;position: relative; overflow-x: hidden;">
+				<div class="sun">
+					<img src="imges/sun.png" style="width:100%; height:100%" />
+				</div>
+				<div class="cloud1">
+					<img src="imges/cloud_one.png" style="" />
+				</div>
+				<div class="cloud2" >
+					<img src="imges/cloud_two.png" style="" />
+				</div>
+				<!--<div class="cloud3" ></div>-->
+			</div>
+		<script src="js/jquery-3.1.1.min.js"></script>
+		<script>
+			function sunMove(){
+				$(".sun").animate({
+					marginTop:'120px',
+					left:'-15%'
+				},10,'linear');
+				$(".sun").animate({
+					marginTop:'80px',
+					left:'20%'
+				},5000,'linear');
+
+				$(".sun").animate({
+					marginTop:'40px',
+					left:'50%'
+				},5000,'linear');
+				
+				$(".sun").animate({
+					marginTop:'100px',
+					left:'100%'
+				},5000,'linear',sunMove);
+				
+			}
+			function cloud1Move(){
+				$(".cloud1").animate({
+					left:'100%'
+				},10,'linear')
+				$(".cloud1").animate({
+					left:'-100%'
+				},15000,'linear'
+				,cloud1Move);
+			}
+			function cloud2Move(){
+				$(".cloud2").animate({
+					left:'100%'
+				},10,'linear')
+				$(".cloud2").animate({
+					left:'-100%'
+				},20000,'linear'
+				,cloud2Move);
+			}
+			function cloud3Move(){
+				$(".cloud3").animate({
+					left:'100%'
+				},10,'linear')
+				$(".cloud3").animate({
+					left:'-100%'
+				},15000,'linear'
+				,cloud3Move);
+			}
+			setTimeout(sunMove,10);
+			setTimeout(cloud1Move,10);
+			setTimeout(cloud2Move,10);
+			//setTimeout(cloud3Move,10);
+		</script>
+	</body>
+</html>

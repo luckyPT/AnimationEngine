@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+		<script src="js/draw.js"></script>
+		<script>
+			function GetRandomNum(Min,Max){//获取随机数   
+				var Range = Max - Min;   
+				var Rand = Math.random();
+				return(Min + Math.round(Rand * Range));   
+			} 
+		</script>
+	</head>
+	<body style="margin: 0; padding:0;height: 100%">
+		<div>
+			<img id="canvasBackground" src="imges/snow_background5.jpg" style="position: absolute;z-index:-1;" />
+			<canvas  id="canvas_all">
+			</canvas>
+		</div>
+		<script type="text/javascript">
+			//全局变量
+			var canvasBackgroundImge = document.getElementById('canvasBackground');
+			var canvas = document.getElementById('canvas_all');
+			var canvasContext = canvas.getContext('2d');
+			var canvasWidth = window.innerWidth;
+			var canvasHeight = window.innerHeight;
+			init();
+			function init(){
+				//document.body.appendChild(canvas);
+				canvas.width = canvasWidth;
+				canvas.height = canvasHeight;
+				canvas.setAttribute('style','background:rgba(0,0,0,0);border:0px solid red');//设置边框
+				canvasBackgroundImge.width = canvasWidth;
+				canvasBackgroundImge.height = canvasHeight;
+				//drawImge("imges/snow_background.jpg",0, 0,canvasWidth,canvasHeight);
+			}
+			
+			//随机产生雪花
+			var snows=[];	//雪花数组
+			function productSnow(){
+				// clear the canvas
+				//canvasContext.fillStyle = "rgba(0,0,0,0)";
+				canvasContext.clearRect(0,0, canvasWidth, canvasHeight);
+				//drawImge("imges/snow_background.jpg",0, 0,canvasWidth,canvasHeight);
+				var snow = new oneSnow(Math.random()*canvasWidth, Math.random()*canvasHeight*0.001,GetRandomNum(1,4));
+				snows.push(snow);
+				if(snows.length > 120){	//只保留二十个雪花
+					snows.shift();		//删除第一个雪花
+				}
+				//绘制数组中的每一个雪花
+				for(var i=0;i<snows.length;i++){
+					if(snows[i].y < canvasHeight){
+						//snows[i].swing();
+						snows[i].showSnow().moveToDown();
+					}
+				}
+			}
+			//定义一个雪花
+			function oneSnow(positionX,positionY,snowSize){
+				this.x=positionX;
+				this.y=positionY;
+				this.size=snowSize;
+				
+				//向下运动 y坐标大
+				this.moveToDown=function(){this.y=this.y+15}
+				//摇摆
+				//this.swing=function(){this.x=this.x-GetRandomNum(0,1)*canvasWidth*0.01}
+				//显示
+				this.showSnow = function(){
+					//drawImge("imges/snow.png",this.x, this.y,this.size,this.size);
+					//drawCircle("#FF0000",this.x,this.y,10,0,2*Math.PI,20);
+					fileStyleDefine(this.x,this.y,snowSize,2*snowSize);
+					return this;
+				}
+			}
+			setInterval(productSnow,1000/10);//每个1/3秒调用一次productSnow函数
+			
+			/*自定义填充样式(雪花)*/
+			function fileStyleDefine(in_x,in_y,in_size1,in_size2){
+				var radial = canvasContext.createRadialGradient(in_x,in_y,in_size1,in_x,in_y,in_size2);
+				radial.addColorStop(0,'rgba(255,255,255,1)');
+				radial.addColorStop(0.9,'rgba(255,255,255,0.001)');
+				radial.addColorStop(1,'rgba(0,0,0,0)');
+				canvasContext.fillStyle = radial;
+				canvasContext.fillRect(in_x-in_size2,in_y-in_size2,in_size2*2,in_size2*2);
+				return radial;
+			}
+		</script>
+	</body>
+</html>

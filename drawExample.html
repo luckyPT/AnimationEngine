@@ -1,0 +1,110 @@
+<!DOCTYPE>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+	</head>
+	<body>
+		<img id="canvasBackground" src="images/bgImage.jpg" style="position: absolute;z-index:-1;" />
+		<canvas  id="canvas_all"></canvas>
+	</body>
+	<script src="lib/PhysicsObj.js"></script>
+	<script src="lib/MathUtils.js"></script>
+	<script src="lib/BaseUtils.js"></script>
+	<script>
+		canvasInit('canvas_all',window.innerWidth,window.innerHeight,'canvasBackground');
+		setCanvasContext('canvas_all');
+		drawRect('#FF0000',10,10,200,200,false);
+		drawRect('#00FF00',50,50,100,100,true);
+		
+		drawCircle('#FF0000',400,100,80,0,2*Math.PI,true);
+		drawCircle('#FF0000',400,100,100,0,2*Math.PI,false);
+		
+		drawLine('#000000',100,300,200,400);
+		drawLine('#000000',100,320,200,420);
+		
+		var img = new Image('images/case1.jpg');
+		img.setVisual(300,300,200,200,Math.PI/3);
+		img.draw(img);
+		
+		//序列针动画
+		var image = new Image('images/test.png');
+		var myVideo = new video(image.img,75,162,8);
+		myVideo.setVisual(550,20,75,160);
+		function frameAnimation(){
+				canvasContext.clearRect(550,20,80,160);
+				myVideo.draw();
+				myVideo.nextFrame();
+		}
+		setInterval(frameAnimation,1000/5);
+		
+		//碰撞测试
+		var rect1 = new RectEntity(700,20,10,200,null);
+		var rect2 = new RectEntity(700,20,200,10,null);
+		var rect3 = new RectEntity(900,20,10,200,null);
+		var rect4 = new RectEntity(700,220,200,10,null);
+		var balls = [];
+		for(var i=0;i<4;i++){
+			var ball = new Image('images/ball.jpg');
+			ball.setVisual(800,120+25*i,20,20,0);
+			
+			var c1 = new CircleEntity(800,120+25*i,10,ball);
+			c1.moveX=1.2*i;
+			c1.moveY=i;
+			balls[i] = c1;
+		}
+		
+		function testHit(){
+			canvasContext.clearRect(700,20,300,300);
+			rect1.draw();
+			rect2.draw();
+			rect3.draw();
+			rect4.draw();
+			for(var i=0;i<balls.length;i++){
+				balls[i].draw();
+				balls[i].drawVirsual();
+				if(rect1.hit(balls[i]) || rect3.hit(balls[i])){
+					balls[i].moveX = balls[i].moveX*(-1);
+				}
+				if(rect2.hit(balls[i]) || rect4.hit(balls[i])){
+					balls[i].moveY = balls[i].moveY*(-1);
+				}
+				balls[i].x = balls[i].x + balls[i].moveX;
+				balls[i].y = balls[i].y + balls[i].moveY;
+			}
+			for(var i=0;i<balls.length;i++){
+				for(j=i;j<balls.length;j++){
+					if(balls[i].hit(balls[j])){
+						balls[i].moveX = -1*balls[i].moveX;
+						balls[i].moveY = -1*balls[i].moveY;
+						balls[j].moveX = -1*balls[j].moveX;
+						balls[j].moveY = -1*balls[j].moveY;
+					}
+				}
+			}
+		}
+		setInterval(testHit,1000/30);
+		
+		//正弦线
+		var sinX = 0;
+		var sinY = Math.sin(sinX);
+		function sinLine(){
+			drawCircle('#FF0000',600+sinX*20,400+sinY*25,10,0,2*Math.PI,true);
+			sinX+=0.1;
+			sinY=Math.sin(sinX);
+		}
+		setInterval(sinLine,1000/10);
+		
+		//风车
+		var img = new Image('images/windCar.jpg');
+		img.setVisual(1000,20,200,200,Math.PI/3);
+		var angle = 0;
+		function windCar(){
+			img.setVisual(1000,20,200,200,angle);
+			img.draw(img);
+			angle=angle+0.15;
+		}
+		
+		setInterval(windCar,1000/60);
+	</script>
+</html>

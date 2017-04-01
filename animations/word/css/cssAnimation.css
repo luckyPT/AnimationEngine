@@ -1,0 +1,271 @@
+  html, body {
+  margin: 0;
+  padding:0;
+  height: 100%
+}
+
+/*向右移动*/
+.moveRight{
+	background-color:#FFF121;
+	position:relative;
+	animation:moveRightFrame 5s;/*infinite 循环*/
+	animation-delay:3s;/*延时*/
+	animation-iteration-count:2;/*循环次数*/
+	animation-direction:alternate;/*是否轮流反向播放 normal或alternate */
+}
+
+@keyframes moveRightFrame{
+	from {left:0px;}
+	to {left:200px;}
+}
+@-webkit-keyframes moveRightFrame{/*谷歌浏览器*/
+	from {left:0px;}
+	to {left:200px;}
+}
+
+/*指定变化过程*/
+@keyframes moveRightFrame1{
+	0% {left:0px;}
+	25% {left:100px;}
+	50% {left:400px;}
+	100% {left:800px;}
+}
+@-webkit-keyframes moveRightFrame1{/*谷歌浏览器*/
+	0% {left:0px;}
+	25% {left:100px;}
+	50% {left:400px;}
+	100% {left:800px;}
+}
+
+/*属性变化 直接设置标签的style会覆盖此处属性*/
+.propertyChange{
+	width:100px;
+	background-color:red;
+	transition:width 3s, background-color 5s;
+	-webkit-transition:width 3s, background-color 5s;
+}
+.propertyChange:hover{
+	width:300px;
+	background-color:yellow;
+}
+
+/*2D 变换移动 转动 缩放 拉伸*/
+/*旋转*/
+.roateStyle{
+	width:100px;
+	background-color:red;
+	transform:rotate(45deg);
+	-ms-transform:rotate(45deg); /* Internet Explorer */
+	-moz-transform:rotate(45deg); /* Firefox */
+	-webkit-transform:rotate(45deg); /* Safari 和 Chrome */
+	-o-transform:rotate(45deg); /* Opera */
+}
+/*移动*/
+.translateStyle{
+	width:100px;
+	background-color:red;
+	transform:translate(50px,100px);
+	-ms-transform:translate(50px,100px); /* IE 9 */
+	-moz-transform:translate(50px,100px); /* Firefox */
+	-webkit-transform:translate(50px,100px); /* Safari and Chrome */
+	-o-transform:translate(50px,100px); /* Opera */
+}
+/*缩放*/
+.scaleStyle{
+	width:100px;
+	background-color:red;
+	transform:scale(2,4);
+	-ms-transform:scale(2,4); /* IE 9 */
+	-moz-transform:scale(2,4); /* Firefox */
+	-webkit-transform:scale(2,4);/* Safari and Chrome */
+	-o-transform:scale(2,4); /* Opera */
+}
+/*翻转*/
+.skewStyle{
+	width:400px;
+	/*background-color:red;*/
+	border:2px solid black;
+	-webkit-transform-style: preserve-3d;/*内部元素3D*/
+	-webkit-perspective:150;/*视图距离 透视效果*/
+	transform: skew(0deg,20deg);
+	-ms-transform: skew(0deg,20deg);	/* IE 9 */
+	-webkit-transform: skew(0deg,0deg);	/* Safari and Chrome */
+	-o-transform: skew(0deg,20deg);	/* Opera */
+	-moz-transform: skew(0deg,20deg);	/* Firefox */
+}
+
+/*3D变换*/
+.skew3D{
+	width:100px;
+	background-color:yellow;
+	/**-webkit-transform-style: preserve-3d;**/
+	-webkit-transform: rotateY(130deg);
+}
+
+/*旋转动画*/
+.roatAnimation{
+	/*width:100px;*/
+	/*background-color:yellow;*/
+	-webkit-animation:roatAnimationFrame 3s;
+	-webkit-animation-iteration-count:6;/*循环次数*/
+	-webkit-animation-direction:normal;/*是否轮流反向播放 normal或alternate */
+}
+
+@-webkit-keyframes roatAnimationFrame{
+	from{-webkit-transform: rotateY(0deg)}
+	to{-webkit-transform: rotateY(360deg)}
+}
+
+
+/*背景渐变*/
+.sky{
+	width:100%;
+	height:900px;
+	/**	可以设置由上向下 或 左向右 或 指定一定的角度，还可以指定变化的曲线
+	 *	指定角度后就不可以指定由哪儿到哪儿
+	 **/
+	/*background:-webkit-linear-gradient(top, #0066FF 0%,#ffffee 60%,#ffffff 100%);*/
+	 background: -webkit-linear-gradient(90deg, #ffffff, #0099FF);
+	
+}
+
+.cloud{
+	height:40%;
+	width:100%;
+	background:url("imges/cloud_one.png");
+}
+
+/*滤镜 在线编辑器：http://www.cssfilters.co/#*/
+.filter {
+  position: relative;
+  -webkit-filter: contrast(150%) saturate(110%);
+  filter: contrast(150%) saturate(110%);
+}
+.filter::before {
+  content: "";
+  display: block;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  position: absolute;
+  pointer-events: none;
+  mix-blend-mode: multiply;
+  background: -webkit-radial-gradient(50% 50%, circle closest-corner, rgba(0, 0, 0, 0) 70, rgba(34, 34, 34, 1));
+  background: radial-gradient(50% 50%, circle closest-corner, rgba(0, 0, 0, 0) 70, rgba(34, 34, 34, 1));
+}
+
+/*实心圆  增加缩放,移动*/
+.circle_block{
+	width: 200px;
+	height: 200px;
+	position:relative;
+	background-color: red;
+	color: white;
+	text-align: center;
+	border-radius: 100px;
+	animation:scale1_5 5s infinite,moveRightFrame 3s infinite;
+	animation-direction:alternate;
+	
+	
+}
+@keyframes scale1_5{
+	from{ width: 200px;	height: 200px; border-radius: 100px;}
+	to{ width: 100px;	height: 100px; border-radius: 50px;}
+}
+
+/*六边形*/
+.hexagon{
+	width: 100px;
+	height: 55px;
+	background: #fc5e5e;
+	position: relative;
+	margin: 10px auto;
+}
+
+.hexagon:before {
+	content: "";
+	width: 0;
+	height: 0;
+	position: absolute;
+	top: -25px;
+	left: 0;
+	border-left: 50px solid transparent;
+	border-right: 50px solid transparent;
+	border-bottom: 25px solid #fc5e5e;
+}
+
+.hexagon:after {
+	content: "";
+	width: 0;
+	height: 0;
+	position: absolute;
+	bottom: -25px;
+	left: 0;
+	border-left: 50px solid transparent;
+	border-right: 50px solid transparent;
+	border-top: 25px solid #fc5e5e;
+}
+
+/*星星*/
+.star {
+	width: 0;
+	height: 0;
+	margin: 50px 0;
+	color: #fc2e5a;
+	position: relative;
+	display: block;
+	border-right: 100px solid transparent;
+	border-bottom: 70px solid #fc2e5a;
+	border-left: 100px solid transparent;
+	-moz-transform: rotate(35deg);
+	-webkit-transform: rotate(35deg);
+	-ms-transform: rotate(35deg);
+	-o-transform: rotate(35deg);
+}
+
+.star:before {
+	height: 0;
+	width: 0;
+	position: absolute;
+	display: block;
+	top: -45px;
+	left: -65px;
+	border-bottom: 80px solid #fc2e5a;
+	border-left: 30px solid transparent;
+	border-right: 30px solid transparent;
+	content: '';
+	-webkit-transform: rotate(-35deg);
+	-moz-transform: rotate(-35deg);
+	-ms-transform: rotate(-35deg);
+	-o-transform: rotate(-35deg);
+}
+
+.star:after {
+	content: '';
+	width: 0;
+	height: 0;
+	position: absolute;
+	display: block;
+	top: 3px;
+	left: -105px;
+	color: #fc2e5a;
+	border-right: 100px solid transparent;
+	border-bottom: 70px solid #fc2e5a;
+	border-left: 100px solid transparent;
+	-webkit-transform: rotate(-70deg);
+	-moz-transform: rotate(-70deg);
+	-ms-transform: rotate(-70deg);
+	-o-transform: rotate(-70deg);
+}
+
+/*月亮*/
+.moon {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  box-shadow: 15px 15px 0 0 red;
+}
+
+
+
